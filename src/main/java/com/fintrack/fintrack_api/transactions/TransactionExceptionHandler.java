@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import com.fintrack.fintrack_api.expenses.ExpenseNotFoundException;
+import com.fintrack.fintrack_api.expenses.InvalidExpenseException;
+
 /**
  * Produces consistent, safe error responses for transaction API failures.
  */
@@ -41,6 +44,32 @@ public class TransactionExceptionHandler {
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public ApiError handleInvalidTransaction(InvalidTransactionException exception) {
 		return new ApiError(Instant.now(), HttpStatus.BAD_REQUEST.value(), "INVALID_TRANSACTION",
+				exception.getMessage());
+	}
+
+	/**
+	 * Converts missing or non-participant expense failures to a not-found response.
+	 *
+	 * @param exception the expense lookup failure
+	 * @return a safe error response
+	 */
+	@ExceptionHandler(ExpenseNotFoundException.class)
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public ApiError handleExpenseNotFound(ExpenseNotFoundException exception) {
+		return new ApiError(Instant.now(), HttpStatus.NOT_FOUND.value(), "EXPENSE_NOT_FOUND",
+				"Expense not found");
+	}
+
+	/**
+	 * Converts invalid expense data to a bad-request response.
+	 *
+	 * @param exception the invalid expense failure
+	 * @return a safe error response
+	 */
+	@ExceptionHandler(InvalidExpenseException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public ApiError handleInvalidExpense(InvalidExpenseException exception) {
+		return new ApiError(Instant.now(), HttpStatus.BAD_REQUEST.value(), "INVALID_EXPENSE",
 				exception.getMessage());
 	}
 
