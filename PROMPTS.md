@@ -14,3 +14,7 @@ Use bullet points. Be specific, not vague.
 ## 2026-10-21 16:03:10 +05:30
 
 Generate a Transaction model and a Transaction service with create, get-by-user, and delete-all functions. Use a database.
+
+## 2026-10-21 17:05:08 +05:30
+
+In #file:TransactionService.java, make sure the service contains no persistence-specific code or SQL, uses the repository only, normalises amount with setScale(2, RoundingMode.HALF_UP) before saving, and logs create and delete with SLF4J. Show minimal changes only.
