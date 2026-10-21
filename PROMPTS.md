@@ -10,3 +10,7 @@ Write the full content of #file:.github/copilot-instructions.md for a Spring Boo
 6. Prompt Logging: Append every prompt I send to PROMPTS.md with a timestamp.
 
 Use bullet points. Be specific, not vague.
+
+## 2026-10-21 16:03:10 +05:30
+
+Generate a Transaction model and a Transaction service with create, get-by-user, and delete-all functions. Use a database.
